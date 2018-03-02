@@ -29,5 +29,7 @@ namespace TestWebApiMvc.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.Products> Products { get; set; }
     }
 }
