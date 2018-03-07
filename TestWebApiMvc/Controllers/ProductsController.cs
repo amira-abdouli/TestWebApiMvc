@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.UI.WebControls;
 using TestWebApiMvc.Models;
 
 namespace TestWebApiMvc.Controllers
@@ -15,12 +18,19 @@ namespace TestWebApiMvc.Controllers
     [Authorize]
     public class ProductsController : ApiController
     {
+        //private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/
+        //public ProductsController(UserManager<ApplicationUser> userManager)
+        //{
+        //    _userManager = userManager;
+        //}
 
         public IQueryable<Products> GetProducts()
         {
+            //var user = _userManager.FindByName(User.Identity.Name);
+            //var claims = user.Claims;
             //var claims = User.Claims;
             var name = User.Identity.Name;
             var isAutorize = User.Identity.IsAuthenticated;
@@ -38,7 +48,7 @@ namespace TestWebApiMvc.Controllers
             {
                 return NotFound();
             }
-
+          
             return Ok(products);
         }
 
