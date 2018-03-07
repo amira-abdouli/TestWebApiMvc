@@ -31,5 +31,7 @@ namespace TestWebApiMvc.Models
         }
 
         public System.Data.Entity.DbSet<TestWebApiMvc.Models.Products> Products { get; set; }
+
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.Categorys> Categorys { get; set; }
     }
 }

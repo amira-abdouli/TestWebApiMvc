@@ -12,6 +12,7 @@ using TestWebApiMvc.Models;
 
 namespace TestWebApiMvc.Controllers
 {
+    [Authorize]
     public class ProductsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -20,6 +21,11 @@ namespace TestWebApiMvc.Controllers
 
         public IQueryable<Products> GetProducts()
         {
+            //var claims = User.Claims;
+            var name = User.Identity.Name;
+            var isAutorize = User.Identity.IsAuthenticated;
+            var TypeAutorization = User.Identity.AuthenticationType;
+            
             return db.Products;
         }
 

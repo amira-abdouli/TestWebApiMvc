@@ -40,4 +40,5 @@ namespace TestWebApiMvc.Models
 
         public string ProviderKey { get; set; }
     }
+
 }
