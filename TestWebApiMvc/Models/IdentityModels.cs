@@ -15,6 +15,9 @@ namespace TestWebApiMvc.Models
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here
             //var claims = manager.get
+            userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            userIdentity.AddClaim(new Claim("UserName", "Admin"));
+            userIdentity.AddClaim(new Claim(ClaimTypes.Name, "test@root.sa"));
             return userIdentity;
         }
     }
@@ -34,5 +37,12 @@ namespace TestWebApiMvc.Models
         public System.Data.Entity.DbSet<TestWebApiMvc.Models.Products> Products { get; set; }
 
         public System.Data.Entity.DbSet<TestWebApiMvc.Models.Categorys> Categorys { get; set; }
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.UserRole> UserRoles { get; set; }
+
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.UserRoleGruop> UserRoleGruops { get; set; }
+
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.RoleJoinRoleGruop> RoleJoinRoleGruops { get; set; }
+        public System.Data.Entity.DbSet<TestWebApiMvc.Models.RoleGruopJoinUsers> RoleGruopJoinUsers { get; set; }
+
     }
 }

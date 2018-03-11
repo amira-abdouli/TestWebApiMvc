@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -18,11 +19,11 @@ namespace TestWebApiMvc.Controllers
 
 
         [ResponseType(typeof(Products))]
-        [Route("api/AllProducts/{id}")]
+        [Route("api/AllCategoryProducts/{id}")]
         public ICollection<Products> GetAllProducts(Guid id)
         {
-            Categorys cat = new Categorys();
-            cat = db.Categorys.Find(id);
+            var cat = db.Categorys.Where(c => c.ID==id).Include(c =>c.Listproducts).SingleOrDefault();
+            //cat = db.Categorys.Find(id);
             return cat.Listproducts;
             //  return db.Categorys.Find(id).products;
         }
@@ -32,7 +33,7 @@ namespace TestWebApiMvc.Controllers
         // GET: api/Categorys
         public IQueryable<Categorys> GetCategorys()
         {
-            return db.Categorys;
+            return db.Categorys.Include(c => c.Listproducts);
         }
 
         // GET: api/Categorys/5
@@ -87,6 +88,13 @@ namespace TestWebApiMvc.Controllers
         [ResponseType(typeof(Categorys))]
         public IHttpActionResult PostCategorys(Categorys categorys)
         {
+            if (categorys!=null)
+            {
+                if (categorys.Listproducts==null)
+                categorys.Listproducts = new Collection<Products>();
+
+            }
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

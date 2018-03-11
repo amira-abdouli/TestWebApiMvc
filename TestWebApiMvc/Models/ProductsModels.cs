@@ -15,4 +15,10 @@ namespace TestWebApiMvc.Models
         [ForeignKey("Category")]
         public Guid IDCategory { get; set; }
     }
+    public class ProductDTO
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string CategoryName { get; set; }
+    }
 }

@@ -7,13 +7,13 @@ namespace TestWebApiMvc.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class aaaaa : IMigrationMetadata
+    public sealed partial class CreateData : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(aaaaa));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateData));
         
         string IMigrationMetadata.Id
         {
-            get { return "201803051230421_aaaaa"; }
+            get { return "201803111745441_CreateData"; }
         }
         
         string IMigrationMetadata.Source
