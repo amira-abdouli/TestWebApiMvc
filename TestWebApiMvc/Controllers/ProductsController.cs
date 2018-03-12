@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -27,7 +28,7 @@ namespace TestWebApiMvc.Controllers
         //    _userManager = userManager;
         //}
 
-        public IQueryable<Products> GetProducts()
+        public IQueryable<ProductDTO> GetProducts()
         {
             //var user = _userManager.FindByName(User.Identity.Name);
             //var claims = user.Claims;
@@ -35,8 +36,18 @@ namespace TestWebApiMvc.Controllers
             var name = User.Identity.Name;
             var isAutorize = User.Identity.IsAuthenticated;
             var TypeAutorization = User.Identity.AuthenticationType;
-            
-            return db.Products;
+
+            var productDTO = from p in db.Products
+                             select new ProductDTO
+                             {
+                                 Address = p.Address,
+                                 CategoryName = p.Category.Name,
+                                 Name = p.Name
+                             };
+            return productDTO;
+           
+                             
+            //return db.Products;
         }
 
         // GET: api/Products/5
@@ -91,29 +102,46 @@ namespace TestWebApiMvc.Controllers
         [ResponseType(typeof(Products))]
         public IHttpActionResult PostProducts(Products products)
         {
+            Categorys cat1;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Products.Add(products);
-
-            try
+            if (products!=null)
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (ProductsExists(products.ID))
+                if (products.IDCategory != null/* .ToString() != "00000000-0000-0000-0000-000000000000"*/)
                 {
-                    return Conflict();
+                     cat1 = db.Categorys.Find(products.IDCategory);
+                    products.Category = cat1;
+                    db.Products.Add(products);
+                    if (cat1.Listproducts==null)
+                    {
+                        cat1.Listproducts = new Collection<Products>();
+                    }
+                    
+                    cat1.Listproducts.Add(products);
+                    db.Categorys.Add(cat1);
+                    //db.SaveChanges();
+                    db.Entry(cat1).State = EntityState.Modified;
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateException)
+                    {
+                        if (ProductsExists(products.ID))
+                        {
+                            return Conflict();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                 }
-                else
-                {
-                    throw;
-                }
+                
             }
-
             return CreatedAtRoute("DefaultApi", new { id = products.ID }, products);
         }
 
