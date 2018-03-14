@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using TestWebApiMvc.Models;
+using BLL1.Models;
 using TestWebApiMvc.Providers;
 using TestWebApiMvc.Results;
 
@@ -73,6 +73,17 @@ namespace TestWebApiMvc.Controllers
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return Ok();
         }
+        // POST api/Account/Logout
+        //[Route("Login")]
+        //public IHttpActionResult Login()
+        //{
+        //    ClaimsIdentity claimsIdentity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie, ClaimTypes.NameIdentifier, ClaimTypes.Role);
+        //    claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "MyCustomID", "http://www.w3.org/2001/XMLSchema#string"));
+        //    claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, "MyCustomUser", "http://www.w3.org/2001/XMLSchema#string"));
+        //    claimsIdentity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "Custom Identity", "http://www.w3.org/2001/XMLSchema#string"));
+        //    //Authentication.SignIn()
+        //    return Ok();
+        //}
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]

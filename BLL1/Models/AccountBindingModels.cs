@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 
-namespace TestWebApiMvc.Models
+namespace BLL1.Models
 {
     // Models used as parameters to AccountController actions.
 

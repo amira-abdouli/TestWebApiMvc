@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using TestWebApiMvc.Models;
+using BLL1.Models;
 
 namespace TestWebApiMvc.Controllers
 {
@@ -78,11 +78,12 @@ namespace TestWebApiMvc.Controllers
         [ResponseType(typeof(UserRoleGruop))]
         public IHttpActionResult PostUserRoleGruop(UserRoleGruop userRoleGruop)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            userRoleGruop.RoleJoinRoleGruops = new List<RoleJoinRoleGruop>();
             db.UserRoleGruops.Add(userRoleGruop);
 
             try
@@ -121,15 +122,12 @@ namespace TestWebApiMvc.Controllers
             }
             catch (DbUpdateException)
             {
-                if (RoleGruopJoinUsersExists(roleGruopJoinUsers.UserRoleGruopID);
-                {
+                if (RoleGruopJoinUsersExists(roleGruopJoinUsers.UserRoleGruopID))
                     return Conflict();
-                }
                 else
-                {
                     throw;
-                }
-                throw;
+                
+                //throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = roleGruopJoinUsers.UserRoleGruopID }, roleGruopJoinUsers);

@@ -9,7 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using TestWebApiMvc.Models;
+using BLL1.Models;
 
 namespace TestWebApiMvc.Controllers
 {
@@ -31,22 +31,25 @@ namespace TestWebApiMvc.Controllers
 
 
         // GET: api/Categorys
-        public IQueryable<Categorys> GetCategorys()
+        public IEnumerable<Categorys> GetCategorys()
         {
-            return db.Categorys.Include(c => c.Listproducts);
+            return DataStore<Categorys>.Get();
+            
+            //return db.Categorys.Include(c => c.Listproducts);
         }
 
         // GET: api/Categorys/5
         [ResponseType(typeof(Categorys))]
         public IHttpActionResult GetCategorys(Guid id)
         {
-            Categorys categorys = db.Categorys.Find(id);
-            if (categorys == null)
+            var category= DataStore<Categorys>.Find(id);
+            //Categorys categorys = db.Categorys.Find(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return Ok(categorys);
+            return Ok(category);
         }
 
         // PUT: api/Categorys/5
@@ -63,11 +66,11 @@ namespace TestWebApiMvc.Controllers
                 return BadRequest();
             }
 
-            db.Entry(categorys).State = EntityState.Modified;
-
+            //db.Entry(categorys).State = EntityState.Modified;
+            
             try
             {
-                db.SaveChanges();
+                DataStore<Categorys>.Update(categorys);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -100,11 +103,11 @@ namespace TestWebApiMvc.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Categorys.Add(categorys);
+            //db.Categorys.Add(categorys);
 
             try
             {
-                db.SaveChanges();
+                DataStore<Categorys>.Add(categorys);
             }
             catch (DbUpdateException)
             {
@@ -132,25 +135,25 @@ namespace TestWebApiMvc.Controllers
             {
                 return BadRequest(ModelState);
             }
-            Categorys cat = db.Categorys.Find(id);
+            Categorys cat = DataStore<Categorys>.Find(id);
             cat.Listproducts.Add(product);
             //db.Categorys.Add(categorys);
-            db.SaveChanges();
-            //try
-            //{
-            //    db.SaveChanges();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    if (CategorysExists(categorys.ID))
-            //    {
-            //        return Conflict();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
+            
+            try
+            {
+                DataStore<Categorys>.Update(cat);
+            }
+            catch (DbUpdateException)
+            {
+                if (!CategorysExists(cat.ID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = product.ID }, product);
         }
@@ -161,30 +164,27 @@ namespace TestWebApiMvc.Controllers
         [ResponseType(typeof(Categorys))]
         public IHttpActionResult DeleteCategorys(Guid id)
         {
-            Categorys categorys = db.Categorys.Find(id);
+            Categorys categorys = DataStore<Categorys>.Find(id);
             if (categorys == null)
             {
                 return NotFound();
             }
-
-            db.Categorys.Remove(categorys);
-            db.SaveChanges();
-
+            DataStore<Categorys>.Delete(id);
             return Ok(categorys);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         private bool CategorysExists(Guid id)
         {
-            return db.Categorys.Count(e => e.ID == id) > 0;
+            return DataStore<Categorys>.Get(e => e.ID == id).Count() > 0;
         }
 
 

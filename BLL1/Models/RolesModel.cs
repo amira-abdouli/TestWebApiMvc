@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace TestWebApiMvc.Models
+namespace BLL1.Models
 {
     public class UserRole
     {

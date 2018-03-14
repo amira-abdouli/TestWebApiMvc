@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TestWebApiMvc.Models
+namespace BLL1.Models
 {
     // Models returned by AccountController actions.
 

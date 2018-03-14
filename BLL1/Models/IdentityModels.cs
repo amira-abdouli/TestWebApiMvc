@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using BLL1.Models;
 
-namespace TestWebApiMvc.Models
+namespace BLL1.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
@@ -15,9 +16,9 @@ namespace TestWebApiMvc.Models
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here
             //var claims = manager.get
-            userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
-            userIdentity.AddClaim(new Claim("UserName", "Admin"));
-            userIdentity.AddClaim(new Claim(ClaimTypes.Name, "test@root.sa"));
+            //userIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            //userIdentity.AddClaim(new Claim("UserName", "Admin"));
+            //userIdentity.AddClaim(new Claim(ClaimTypes.Name, "test@root.sa"));
             return userIdentity;
         }
     }
@@ -34,15 +35,15 @@ namespace TestWebApiMvc.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.Products> Products { get; set; }
+        public System.Data.Entity.DbSet<Products> Products { get; set; }
 
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.Categorys> Categorys { get; set; }
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.UserRole> UserRoles { get; set; }
+        public System.Data.Entity.DbSet<Categorys> Categorys { get; set; }
+        public System.Data.Entity.DbSet<UserRole> UserRoles { get; set; }
 
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.UserRoleGruop> UserRoleGruops { get; set; }
+        public System.Data.Entity.DbSet<UserRoleGruop> UserRoleGruops { get; set; }
 
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.RoleJoinRoleGruop> RoleJoinRoleGruops { get; set; }
-        public System.Data.Entity.DbSet<TestWebApiMvc.Models.RoleGruopJoinUsers> RoleGruopJoinUsers { get; set; }
+        public System.Data.Entity.DbSet<RoleJoinRoleGruop> RoleJoinRoleGruops { get; set; }
+        public System.Data.Entity.DbSet<RoleGruopJoinUsers> RoleGruopJoinUsers { get; set; }
 
     }
 }

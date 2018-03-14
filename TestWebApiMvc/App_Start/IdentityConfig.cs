@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using TestWebApiMvc.Models;
+using BLL1.Models;
 
 namespace TestWebApiMvc
 {
